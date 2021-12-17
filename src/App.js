@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Route, Switch, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import * as yup from 'yup';
@@ -22,6 +22,7 @@ const App = () => {
 		specialInstructions: '',
 	};
 
+	// Errors I want to display in the state that are required
 	const initialFormErrors = {
 		name: '',
 		pizzaSize: '',
@@ -29,13 +30,14 @@ const App = () => {
 	};
 
 	const initialOrder = {}; // Object
+	const initialDisabled = true; // Boolean
 
 	const [formData, setFormData] = useState(initialFormData);
 	const [formErrors, setFormErrors] = useState(initialFormErrors);
 	const [order, setOrder] = useState(initialOrder);
+	const [disabled, setDisabled] = useState(initialDisabled);
 
 	const history = useHistory();
-
 	const orderCompleted = () => {
 		history.push('/confirmed');
 	};
@@ -82,6 +84,10 @@ const App = () => {
 		submitNewOrder(order);
 	};
 
+	useEffect(() => {
+		schema.isValid(formData).then((valid) => setDisabled(!valid));
+	}, [formData]);
+
 	return (
 		<div>
 			<nav>
@@ -100,6 +106,7 @@ const App = () => {
 						change={change}
 						submit={submit}
 						errors={formErrors}
+						disabled={disabled}
 					/>
 				</Route>
 				<Route path="/confirmed">

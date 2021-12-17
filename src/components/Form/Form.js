@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.css';
 
-const Form = ({ data, change, submit, errors }) => {
+const Form = ({ data, change, submit, errors, disabled }) => {
 	const onChange = (e) => {
 		const { name, value, checked, type } = e.target;
 		const valueToUse = type === 'checked' ? checked : value;
@@ -102,7 +102,9 @@ const Form = ({ data, change, submit, errors }) => {
 						onChange={onChange}
 					/>
 				</label>
-				<button id="order-button">Add to Order</button>
+				<button disabled={disabled} id="order-button">
+					Add to Order
+				</button>
 			</form>
 		</div>
 	);
