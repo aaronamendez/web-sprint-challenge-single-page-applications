@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link, Route, Switch, useHistory } from 'react-router-dom';
+import axios from 'axios';
+import * as yup from 'yup';
+import schema from './validation/validation';
 import './App.css';
 
 // Components
 import Home from './components/Home/Home';
 import Form from './components/Form/Form';
 import OrderConfirmed from './components/OrderConfirmed/OrderConfirmed';
-import axios from 'axios';
 
 const App = () => {
 	// FORM STATE
@@ -20,9 +22,16 @@ const App = () => {
 		specialInstructions: '',
 	};
 
+	const initialFormErrors = {
+		name: '',
+		pizzaSize: '',
+		specialInstructions: '',
+	};
+
 	const initialOrder = {}; // Object
 
 	const [formData, setFormData] = useState(initialFormData);
+	const [formErrors, setFormErrors] = useState(initialFormErrors);
 	const [order, setOrder] = useState(initialOrder);
 
 	const history = useHistory();
@@ -31,7 +40,16 @@ const App = () => {
 		history.push('/confirmed');
 	};
 
+	const validate = (name, value) => {
+		yup
+			.reach(schema, name)
+			.validate(value)
+			.then(() => setFormErrors({ ...formErrors, [name]: '' }))
+			.catch((err) => setFormErrors({ ...formErrors, [name]: err.errors[0] }));
+	};
+
 	const change = (name, value) => {
+		validate(name, value);
 		setFormData({
 			...formData,
 			[name]: value,
@@ -42,7 +60,7 @@ const App = () => {
 		axios
 			.post('https://reqres.in/api/orders', order)
 			.then((res) => {
-				console.log(res.data);
+				// console.log(res.data);
 				setOrder(res.data);
 				orderCompleted();
 			})
@@ -77,7 +95,12 @@ const App = () => {
 					<Home />
 				</Route>
 				<Route path="/pizza">
-					<Form data={formData} change={change} submit={submit} />
+					<Form
+						data={formData}
+						change={change}
+						submit={submit}
+						errors={formErrors}
+					/>
 				</Route>
 				<Route path="/confirmed">
 					<OrderConfirmed data={order} />

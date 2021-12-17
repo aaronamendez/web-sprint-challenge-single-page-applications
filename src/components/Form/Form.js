@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.css';
 
-const Form = ({ data, change, submit }) => {
+const Form = ({ data, change, submit, errors }) => {
 	const onChange = (e) => {
 		const { name, value, checked, type } = e.target;
 		const valueToUse = type === 'checked' ? checked : value;
@@ -17,7 +17,11 @@ const Form = ({ data, change, submit }) => {
 		<div className="form">
 			<h2>Edit your order</h2>
 			<form id="pizza-form" onSubmit={onSubmit}>
-				{}
+				<div>
+					{errors.name}
+					<br />
+					{errors.pizzaSize}
+				</div>
 				{/* Name */}
 				<label>
 					Name
