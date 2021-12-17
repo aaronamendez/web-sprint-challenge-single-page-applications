@@ -17,6 +17,7 @@ const Form = ({ data, change, submit }) => {
 		<div className="form">
 			<h2>Edit your order</h2>
 			<form id="pizza-form" onSubmit={onSubmit}>
+				{}
 				{/* Name */}
 				<label>
 					Name
@@ -86,7 +87,7 @@ const Form = ({ data, change, submit }) => {
 						/>
 					</label>
 				</div>
-
+				{/* Text Area */}
 				<label>
 					Special Instructions
 					<textarea

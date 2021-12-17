@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, Route, Switch, useHistory } from 'react-router-dom';
 import './App.css';
 
 // Components
 import Home from './components/Home/Home';
 import Form from './components/Form/Form';
+import OrderConfirmed from './components/OrderConfirmed/OrderConfirmed';
 import axios from 'axios';
 
 const App = () => {
@@ -24,6 +25,12 @@ const App = () => {
 	const [formData, setFormData] = useState(initialFormData);
 	const [order, setOrder] = useState(initialOrder);
 
+	const history = useHistory();
+
+	const orderCompleted = () => {
+		history.push('/confirmed');
+	};
+
 	const change = (name, value) => {
 		setFormData({
 			...formData,
@@ -37,6 +44,7 @@ const App = () => {
 			.then((res) => {
 				console.log(res.data);
 				setOrder(res.data);
+				orderCompleted();
 			})
 			.catch((err) => console.error(err))
 			.finally(() => {
@@ -70,6 +78,9 @@ const App = () => {
 				</Route>
 				<Route path="/pizza">
 					<Form data={formData} change={change} submit={submit} />
+				</Route>
+				<Route path="/confirmed">
+					<OrderConfirmed data={order} />
 				</Route>
 			</Switch>
 		</div>
