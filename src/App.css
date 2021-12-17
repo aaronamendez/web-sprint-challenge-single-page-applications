@@ -20,7 +20,7 @@ nav a {
 }
 
 nav a:hover {
-	color: crimson;
+	color: rgb(166, 210, 228);
 }
 
 /* App Shared styles */
