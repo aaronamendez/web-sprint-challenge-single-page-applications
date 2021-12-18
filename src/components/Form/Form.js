@@ -4,7 +4,7 @@ import './index.css';
 const Form = ({ data, change, submit, errors, disabled }) => {
 	const onChange = (e) => {
 		const { name, value, checked, type } = e.target;
-		const valueToUse = type === 'checked' ? checked : value;
+		const valueToUse = type === 'checkbox' ? checked : value;
 		change(name, valueToUse);
 	};
 
@@ -53,6 +53,7 @@ const Form = ({ data, change, submit, errors, disabled }) => {
 				</label>
 
 				{/* Checkboxes */}
+				<h3>Add Toppings</h3>
 				<div className="checkbox-div">
 					<label>
 						Pepperoni

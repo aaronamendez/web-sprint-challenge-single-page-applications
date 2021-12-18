@@ -17,6 +17,11 @@ form input {
 	text-align: center;
 }
 
+.form h3 {
+	margin-left: 1em;
+	margin-bottom: 0;
+}
+
 form {
 	width: 50%;
 	margin: 0 auto;
